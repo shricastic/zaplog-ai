@@ -1,7 +1,8 @@
 import { Hono } from "hono";
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
-import { decode, sign, verify } from "hono/jwt";
+import { sign } from "hono/jwt";
+import { signupInput, signinInput } from "../utils/validator";
 
 const userRouter = new Hono<{
   Bindings: {
@@ -12,6 +13,14 @@ const userRouter = new Hono<{
 
 userRouter.post("/signup", async (c) => {
   const body = await c.req.json();
+  console.log("body of the req", body)
+
+  const { success } = signupInput.safeParse(body);
+
+  if (!success) {
+    c.status(411);
+    return c.json({ message: "Please provide correct inputs" });
+  }
 
   const prisma = new PrismaClient({
     datasourceUrl: c.env.DB_POOL_URL,
@@ -32,7 +41,7 @@ userRouter.post("/signup", async (c) => {
       {
         id: user.id,
       },
-      c.env.JWT_SECRET
+      c.env.JWT_SECRET,
     );
 
     c.status(200);
@@ -45,6 +54,13 @@ userRouter.post("/signup", async (c) => {
 
 userRouter.post("/signin", async (c) => {
   const body = await c.req.json();
+
+  const { success } = signinInput.safeParse(body);
+
+  if (!success) {
+    c.status(411);
+    return c.json({ message: "Please provide correct inputs" });
+  }
 
   const prisma = new PrismaClient({
     datasourceUrl: c.env.DB_POOL_URL,
@@ -69,7 +85,7 @@ userRouter.post("/signin", async (c) => {
       {
         id: user.id,
       },
-      c.env.JWT_SECRET
+      c.env.JWT_SECRET,
     );
 
     c.status(200);
