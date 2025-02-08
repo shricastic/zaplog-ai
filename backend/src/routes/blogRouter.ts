@@ -3,11 +3,13 @@ import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { verify } from "hono/jwt";
 import { CreateblogInput, UpdateBlogInput } from "../utils/validator";
+import { GenerateBlogContent } from "../utils/contentGenerator";
 
 const blogRouter = new Hono<{
   Bindings: {
     DB_POOL_URL: string;
     JWT_SECRET: string;
+    GROQ_API_KEY: string;
   };
   Variables: {
     userId: string;
@@ -60,6 +62,7 @@ blogRouter.get("/bulk", async (c) => {
     return c.json({ message: "Something went wrong homie, check!" });
   }
 });
+
 blogRouter.get("", async (c) => {
   const body = await c.req.json();
 
@@ -205,6 +208,26 @@ blogRouter.put("", async (c) => {
     c.status(200);
     return c.json({ message: "Blog updated successfully!", blog });
   } catch (e) {
+    c.status(500);
+    return c.json({ message: "Something went wrong homie, check!" });
+  }
+});
+
+blogRouter.post("/content/generate", async (c) => {
+  const body = await c.req.json();
+  const apiKey = c.env.GROQ_API_KEY;
+  const title = body.title;
+  
+  try {
+    const content = await GenerateBlogContent({title, apiKey});
+
+    c.status(201);
+    return c.json({
+      message: "Content generated successfully",
+      content: content, 
+    });
+  } catch (e) {
+    console.error(e);
     c.status(500);
     return c.json({ message: "Something went wrong homie, check!" });
   }
