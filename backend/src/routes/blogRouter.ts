@@ -29,6 +29,37 @@ blogRouter.use("/*", async (c, next) => {
   }
 });
 
+blogRouter.get("/bulk", async (c) => {
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env.DB_POOL_URL,
+  }).$extends(withAccelerate());
+
+  try {
+    const blogs = await prisma.blog.findMany({
+      select: {
+        title: true,
+        content: true,
+        id: true,
+        author: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
+
+    if (!blogs.length) {
+      c.status(404);
+      return c.json({ message: "No blogs found" });
+    }
+
+    c.status(200); 
+    return c.json({ message: "Here are all your blogs!", blogs });
+  } catch (e) {
+    c.status(500);
+    return c.json({ message: "Something went wrong homie, check!" });
+  }
+});
 blogRouter.get("", async (c) => {
   const body = await c.req.json();
 
@@ -51,16 +82,21 @@ blogRouter.get("", async (c) => {
       },
     });
 
-    c.status(201);
-    return c.json({ message: "Here you go Homie, here is you blog!", blog });
+    if (!blog) {
+      c.status(404);
+      return c.json({ message: "Blog not found" });
+    }
+
+    c.status(200);
+    return c.json({ message: "Here you go Homie, here is your blog!", blog });
   } catch (e) {
-    c.status(404);
+    c.status(500);
     return c.json({ message: "Something went wrong homie, check!" });
   }
 });
 
 blogRouter.get("/:id", async (c) => {
-  const id = c.req.param("blogId");
+  const id = c.req.param("id");
 
   const prisma = new PrismaClient({
     datasourceUrl: c.env.DB_POOL_URL,
@@ -81,10 +117,15 @@ blogRouter.get("/:id", async (c) => {
       },
     });
 
-    c.status(201);
-    return c.json({ message: "Here you go Homie, here is you blog!", blog });
+    if (!blog) {
+      c.status(404);
+      return c.json({ message: "Blog not found" });
+    }
+
+    c.status(200); 
+    return c.json({ message: "Here you go Homie, here is your blog!", blog });
   } catch (e) {
-    c.status(404);
+    c.status(500);
     return c.json({ message: "Something went wrong homie, check!" });
   }
 });
@@ -96,7 +137,7 @@ blogRouter.post("", async (c) => {
   const { success } = CreateblogInput.safeParse(body);
 
   if (!success) {
-    c.status(411);
+    c.status(400);
     return c.json({ message: "Please provide correct inputs" });
   }
 
@@ -119,18 +160,19 @@ blogRouter.post("", async (c) => {
       blogId: String(blog.id),
     });
   } catch (e) {
-    c.status(404);
+    c.status(500);
     return c.json({ message: "Something went wrong homie, check!" });
   }
 });
 
 blogRouter.put("", async (c) => {
   const body = await c.req.json();
+  const userId = c.get("userId"); 
 
   const { success } = UpdateBlogInput.safeParse(body);
   if (!success) {
-    c.status(411);
-    return c.text("wrong inputs");
+    c.status(400); 
+    return c.json({ message: "Please provide correct inputs" });
   }
 
   const prisma = new PrismaClient({
@@ -138,6 +180,18 @@ blogRouter.put("", async (c) => {
   }).$extends(withAccelerate());
 
   try {
+    const existingBlog = await prisma.blog.findFirst({
+      where: {
+        id: body.blogId,
+        authorId: userId
+      }
+    });
+
+    if (!existingBlog) {
+      c.status(404);
+      return c.json({ message: "Blog not found or you don't have permission to update it" });
+    }
+
     const blog = await prisma.blog.update({
       where: {
         id: body.blogId,
@@ -148,42 +202,13 @@ blogRouter.put("", async (c) => {
       },
     });
 
-    c.status(201);
-    return c.json({ message: "I updated your blog, well done!", blog });
+    c.status(200);
+    return c.json({ message: "Blog updated successfully!", blog });
   } catch (e) {
-    c.status(404);
+    c.status(500);
     return c.json({ message: "Something went wrong homie, check!" });
   }
 });
 
-// TODO: add pagination
-blogRouter.get("/bulk", async (c) => {
-  const prisma = new PrismaClient({
-    datasourceUrl: c.env.DB_POOL_URL,
-  }).$extends(withAccelerate());
-
-  try {
-    const blogs = await prisma.blog.findMany({
-      select: {
-        title: true,
-        content: true,
-        id: true,
-        author: {
-          select: {
-            name: true,
-          },
-        },
-      },
-    });
-
-    console.log("blogs:", blogs);
-
-    c.status(201);
-    return c.json({ message: "Get your all blogs, I dont want 'em!", blogs });
-  } catch (e) {
-    c.status(404);
-    return c.json({ message: "Something went wrong homie, check!" });
-  }
-});
 
 export default blogRouter;
