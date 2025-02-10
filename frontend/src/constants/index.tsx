@@ -4,50 +4,36 @@ export const perks = [
     {
         icon: Icons.auth,
         title: "Sign Up",
-        info: "Create your free account to get started with Zaplog.",
+        info: "Create your free account and start your blogging journey.",
     },
     {
         icon: Icons.customize,
-        title: "Customize",
-        info: "Choose a template and customize it to fit your needs.",
+        title: "Write & Customize",
+        info: "Craft compelling posts, customize your layout, and make it uniquely yours.",
     },
     {
         icon: Icons.launch,
-        title: "Launch",
-        info: "Publish your website and share it with the world.",
+        title: "Publish & Share",
+        info: "Publish your blog and share your stories with the world.",
     },
 ];
 
+
 export const features = [
     {
-        icon: Icons.bolt,
-        title: "Fast Setup",
-        info: "Get your website up and running in minutes with our intuitive AI-powered builder.",
-    },
-    {
-        icon: Icons.palette,
-        title: "Customizable Templates",
-        info: "Choose from a variety of stunning templates and customize them to suit your brand.",
-    },
-    {
-        icon: Icons.seo,
-        title: "SEO Optimized",
-        info: "Built-in SEO features ensure your website ranks well on search engines.",
-    },
-    {
         icon: Icons.monitor,
-        title: "Responsive Design",
-        info: "Your website will look great on any device, from desktops to mobile phones.",
+        title: "Effortless Writing",
+        info: "Create and publish engaging blog posts with a seamless editor.",
     },
     {
-        icon: Icons.shop,
-        title: "E-Commerce Ready",
-        info: "Start selling online with our e-commerce features and integrations.",
+        icon: Icons.customize,
+        title: "AI-Powered Content",
+        info: "Generate high-quality blog posts instantly with AI assistance.",
     },
     {
-        icon: Icons.server,
-        title: "Secure Hosting",
-        info: "Enjoy peace of mind with secure and reliable hosting for your website.",
+        icon: Icons.bolt,
+        title: "Easy Sharing",
+        info: "Share your content effortlessly across social media and grow your audience.",
     },
 ];
 

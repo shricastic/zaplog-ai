@@ -49,20 +49,18 @@ const Hero = () => {
 
             <div className="flex flex-col items-center mt-8 max-w-3xl w-11/12 md:w-full z-[10]">
               <h1 className="text-4xl md:text-6xl lg:textxl md:!leading-snug font-semibold text-center ">
-                Build your next idea and ship your dream site
+              Thoughts, Trends, and Tales  Dive into a World of Words!
               </h1>
               <p className="text-base md:text-lg text-foreground/80 mt-6 text-center">
-                Zero code, maximum speed. Make professional sites easy,
-                fast and fun while delivering best-in-class SEO,
-                performance.
+              Explore ideas, spark creativity. Read, learn, and get inspired with engaging stories, insights, and trends all in one place.
               </p>
               <div className="hidden md:flex relative items-center justify-center mt-8 md:mt-12 w-full">
                 <Link
-                  to="#"
+                  to="/blogs"
                   className="flex items-center justify-center w-max rounded-full border-t border-foreground/30 bg-white/20 backdrop-blur-lg px-2 py-1 md:py-2 gap-2 md:gap-8 shadow-3xl shadow-background/40 cursor-pointer select-none"
                 >
                   <p className="text-foreground text-sm text-center md:text-base font-medium pl-4 pr-4 lg:pr-0">
-                    ✨ {"  "} Start building your dream website now!
+                    ✨ {"  "}Start sharing your ideas with the world—build your dream blog today!
                   </p>
                   <Button
                     size="sm"
@@ -99,10 +97,10 @@ const Hero = () => {
                     <div className="max-w-md mx-auto text-start md:text-center">
                         <SectionBadge title="The Process" />
                         <h2 className="text-3xl lg:text-4xl font-semibold mt-6">
-                            Three steps to build your dream website
+                            Start Your Blog in Three Simple Steps                        
                         </h2>
                         <p className="text-muted-foreground mt-6">
-                            Turn your vision into reality in just 3 simple steps
+                            Share your thoughts, engage your audience, and grow your presence—all with ease.
                         </p>
                     </div>
                 </Container>
@@ -169,7 +167,7 @@ const Hero = () => {
             </Wrapper>
 
             {/* pricing */}
-            <Wrapper className="flex flex-col items-center justify-center py-12 relative">
+            {/* <Wrapper className="flex flex-col items-center justify-center py-12 relative">
                 <div className="hidden md:block absolute top-0 -right-1/3 w-72 h-72 bg-blue-500 rounded-full blur-[10rem] -z-9"></div>
                 <Container>
                     <div className="max-w-md mx-auto text-start md:text-center">
@@ -225,7 +223,7 @@ const Hero = () => {
                         ))}
                     </div>
                 </Container>
-            </Wrapper>
+            </Wrapper> */}
 
             {/* testimonials */}
             <Wrapper className="flex flex-col items-center justify-center py-12 relative">

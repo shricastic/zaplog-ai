@@ -16,7 +16,9 @@ const FullBlog = ({blog}: {blog : Blog}) => {
         <h1 className="text-4xl font-bold mb-4">{blog.title}</h1>
         <div className="prose">
           {blog.content.split('\n\n').map((paragraph: string, index: number) => (
-            <p key={index} className="mb-4 text-wrap outline w-full">{paragraph}</p>
+            paragraph.charAt(0) === '*' 
+            ? <h2 key={index} className="mb-4 text-2xl font-semibold">{paragraph.split("**")[1]}</h2>
+            : <p key={index} className="mb-4 text-wrap  w-full prose">{paragraph}</p>
           ))}
         </div>
       </div>
