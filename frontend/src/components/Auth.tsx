@@ -66,20 +66,20 @@ const Auth = ({ type }: { type: "signup" | "signin" }) => {
                 label="Name"
                 type="text"
                 placeholder="Enter your name"
-                onChange={(e) => setPostInputs((c) => ({ ...c, name: e.target.value }))}
+                onChange={(e) => setPostInputs((c: any) => ({ ...c, name: e.target.value }))}
               />
             ) : null}
             <LabelledInput
               label="Username"
               type="email"
               placeholder="hrithik@gmail.com"
-              onChange={(e) => setPostInputs((c) => ({ ...c, username: e.target.value }))}
+              onChange={(e) => setPostInputs((c: any) => ({ ...c, username: e.target.value }))}
             />
             <LabelledInput
               label="Password"
               type="password"
               placeholder="Enter your password"
-              onChange={(e) => setPostInputs((c) => ({ ...c, password: e.target.value }))}
+              onChange={(e) => setPostInputs((c:any) => ({ ...c, password: e.target.value }))}
             />
           </div>
           <button

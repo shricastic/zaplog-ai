@@ -1,10 +1,8 @@
 import { useEffect, useRef } from "react";
-import EditorJS, { OutputData,  } from "@editorjs/editorjs";
+import EditorJS, { OutputData, ToolSettings, BlockToolConstructable } from "@editorjs/editorjs";
 import Header from "@editorjs/header";
 import List from "@editorjs/list";
 import ImageTool from "@editorjs/image";
-import { Input } from "@/components/ui/input";
-// import Embed from "@editorjs/embed";
 
 interface EditorProps {
   onChange: (data: OutputData) => void;
@@ -14,7 +12,6 @@ interface EditorProps {
 const DEFAULT_INITIAL_DATA: OutputData = {
   time: new Date().getTime(),
   blocks: [
-
     {
       type: "header",
       data: {
@@ -31,24 +28,23 @@ const Editor: React.FC<EditorProps> = ({ onChange, data }) => {
   useEffect(() => {
     if (!editorRef.current) {
       const editor = new EditorJS({
-        // readOnly : true,
         holder: "editorjs",
         tools: {
           header: {
-            class: Header,
+            class: Header as unknown as BlockToolConstructable,
             config: {
               placeholder: "Enter a heading",
               levels: [1, 2, 3, 4, 5, 6],
               defaultLevel: 2,
               inlineToolbar: true,
             },
-          } ,
-          list: List,
+          },
+          list: {
+            class: List as unknown as BlockToolConstructable,
+          },
           image: {
-            class: ImageTool,
-
+            class: ImageTool as unknown as BlockToolConstructable,
             config: {
-
               uploader: {
                 async uploadByFile(file: File) {
                   return new Promise((resolve) => {
@@ -69,19 +65,9 @@ const Editor: React.FC<EditorProps> = ({ onChange, data }) => {
         data: data || DEFAULT_INITIAL_DATA,
         async onChange(api) {
           const content = await api.saver.save();
-          // const validContent = {
-          //   ...content,
-          //   blocks: content.blocks.filter((block) => {
-          //     if (block.type === "header") {
-          //       return block.data.text && block.data.level;
-          //     }
-          //     return true;
-          //   }),
-          // };
           onChange(content);
         },
       });
-
       editorRef.current = editor;
     }
 
@@ -93,9 +79,9 @@ const Editor: React.FC<EditorProps> = ({ onChange, data }) => {
     };
   }, []);
 
-  return <div id="editorjs" className=" border p-4 rounded-md">
-
-  </div>;
+  return (
+    <div id="editorjs" className="border p-4 rounded-md"></div>
+  );
 };
 
 export default Editor;
