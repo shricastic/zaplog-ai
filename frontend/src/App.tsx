@@ -10,6 +10,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Blogs from "./pages/Blogs";
 import { ThemeProvider } from "./components/theme-provider";
 import Publish from "./pages/Publish";
+import OAuthCallback from "./components/OAuthCallback";
 
 
 function App() {
@@ -45,7 +46,11 @@ function App() {
         {
           path: 'publish',
           element : (<ProtectedRoute><Publish/></ProtectedRoute>)
-        }
+        },
+        {
+          path:'/oauth',
+          element: <OAuthCallback/> 
+        },
       ]
     }
   ])

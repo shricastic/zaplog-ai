@@ -18,13 +18,14 @@ interface BlogCardProps {
   title: string;
   content: string;
   category?: string;
-  blogId: number;
+  blogId: number; 
 }
+
 
 export function ImprovedBlogCard({
   blogId,
   authorName,
-  authorImage = ASTRA,
+  authorImage,
   date,
   title,
   content,
@@ -57,7 +58,17 @@ export function ImprovedBlogCard({
             {title}
           </h2>
           <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">
-            {content}
+          {content.split("\n\n").map((paragraph: string, index: number) =>
+            paragraph.startsWith("*") ? (
+              <h5 key={index} className="mb-4 text-sm font-semibold">
+                {paragraph.split("**")[1]}
+              </h5>
+            ) : (
+              <p key={index} className="mb-4 text-sm text-wrap w-full prose">
+                {paragraph}
+              </p>
+            )
+          )}
           </p>
           <Badge
             variant="secondary"
