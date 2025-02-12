@@ -9,6 +9,7 @@ export interface Blog {
     content: string;
     author: {
         name: string;
+        avatar: string;
     }
 }
 //fetching blogs with id 

@@ -1,4 +1,5 @@
 import Auth from "@/components/Auth"
+import OAuth from "@/components/OAuth";
 
 const Signin = () => {
   return (
@@ -6,7 +7,7 @@ const Signin = () => {
       {/* Signup section */}
       <div className="flex-1 flex items-center justify-center p-4 lg:p-8 lg:w-1/2">
         <div className="w-full max-w-md">
-          <Auth type="signin" />
+          <OAuth type="signin" />
         </div>
       </div>
       

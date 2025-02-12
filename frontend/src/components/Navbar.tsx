@@ -27,7 +27,8 @@ const Navbar = () => {
               <span className="text-lg font-bold">ZapLog</span>
             </div>
           </div>
-          <nav className="hidden md:block absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          {user && ( // Only show blogs when user is logged in
+            <nav className="hidden md:block absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
             <ul className="flex items-center justify-center gap-8">
               {/* <Link to="#" className="hover:text-foreground/80 text-sm">Pricing</Link>
                 <Link to="#" className="hover:text-foreground/80 text-sm">About</Link>
@@ -40,7 +41,9 @@ const Navbar = () => {
                     <div >Features</div>
                     <div >Blog</div> */}
             </ul>
-          </nav>
+            </nav>
+          )}
+
           <div className="flex items-center gap-4">
             {user ? (
               // <UserButton />

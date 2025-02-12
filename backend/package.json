@@ -5,6 +5,7 @@
     "deploy": "wrangler deploy --minify"
   },
   "dependencies": {
+    "@hono/oauth-providers": "^0.6.2",
     "@prisma/client": "6.2.1",
     "@prisma/extension-accelerate": "^1.2.1",
     "groq-sdk": "^0.15.0",

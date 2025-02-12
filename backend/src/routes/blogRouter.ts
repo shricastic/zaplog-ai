@@ -45,6 +45,7 @@ blogRouter.get("/bulk", async (c) => {
         author: {
           select: {
             name: true,
+            avatar: true,
           },
         },
       },
@@ -80,6 +81,7 @@ blogRouter.get("", async (c) => {
         author: {
           select: {
             name: true,
+            avatar: true
           },
         },
       },
@@ -115,6 +117,7 @@ blogRouter.get("/:id", async (c) => {
         author: {
           select: {
             name: true,
+            avatar: true
           },
         },
       },
