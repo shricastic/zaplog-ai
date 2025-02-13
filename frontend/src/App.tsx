@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Hero } from "./feature/LandingPage";
-import { RouterProvider, createBrowserRouter } from 'react-router'
+import { RouterProvider, createBrowserRouter } from "react-router";
 import NavLayout from "./layouts/NavLayout";
 import Signin from "./pages/Signin";
 import AuthRoute from "./components/AuthRoute";
@@ -11,54 +11,80 @@ import Blogs from "./pages/Blogs";
 import { ThemeProvider } from "./components/theme-provider";
 import Publish from "./pages/Publish";
 import OAuthCallback from "./components/OAuthCallback";
-
+import Profile from "./pages/Profile";
 
 function App() {
   const [content, setContent] = useState(null);
   const router = createBrowserRouter([
     {
-      path: '/',
+      path: "/",
       element: <NavLayout />,
       children: [
         {
           // path: '/',
-          element: <Hero/>,
-          index: true
+          element: <Hero />,
+          index: true,
         },
         {
-          path: 'login',
-          element: (<AuthRoute>
-                      <Signin/>
-                    </AuthRoute>)
+          path: "login",
+          element: (
+            <AuthRoute>
+              <Signin />
+            </AuthRoute>
+          ),
         },
         {
-          path: 'signup',
-          element: <AuthRoute><Signup/></AuthRoute>
+          path: "signup",
+          element: (
+            <AuthRoute>
+              <Signup />
+            </AuthRoute>
+          ),
         },
         {
-          path: 'blogs',
-          element : (<ProtectedRoute><Blogs/></ProtectedRoute>)
+          path: "blogs",
+          element: (
+            <ProtectedRoute>
+              <Blogs />
+            </ProtectedRoute>
+          ),
         },
         {
-          path: 'blog/:id',
-          element : (<ProtectedRoute><Blog/></ProtectedRoute>)
+          path: "blog/:id",
+          element: (
+            <ProtectedRoute>
+              <Blog />
+            </ProtectedRoute>
+          ),
         },
         {
-          path: 'publish',
-          element : (<ProtectedRoute><Publish/></ProtectedRoute>)
+          path: "publish",
+          element: (
+            <ProtectedRoute>
+              <Publish />
+            </ProtectedRoute>
+          ),
         },
         {
-          path:'/oauth',
-          element: <OAuthCallback/> 
+          path: "profile",
+          element: (
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          ),
         },
-      ]
-    }
-  ])
+        {
+          path: "/oauth",
+          element: <OAuthCallback />,
+        },
+      ],
+    },
+  ]);
   return (
     <>
-    <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
-       <RouterProvider router={router} />
-    </ThemeProvider>
+      <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+        <RouterProvider router={router} />
+      </ThemeProvider>
     </>
   );
 }

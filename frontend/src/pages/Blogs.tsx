@@ -2,6 +2,7 @@ import { ImprovedBlogCard } from "@/components/improved-blog-card";
 import { useBlogs } from "../hooks";
 import Wrapper from "@/components/Wrapper";
 import Container from "@/components/Container";
+import LoadingSkeleton from "@/components/LoadingSkeleton";
 
 const Blogs = () => {
   const { loading, blogs } = useBlogs();
@@ -9,17 +10,12 @@ const Blogs = () => {
   if (loading) {
     return (
       <div>
-        {/* <LoadingSkeleton/>
-            <LoadingSkeleton/>
-            <LoadingSkeleton/>
-            <LoadingSkeleton/>
-            <LoadingSkeleton/>
-            <LoadingSkeleton/> */}
-        <h1>Loading....</h1>
-        <h1>Loading....</h1>
-        <h1>Loading....</h1>
-        <h1>Loading....</h1>
-        <h1>Loading....</h1>
+        <LoadingSkeleton />
+        <LoadingSkeleton />
+        <LoadingSkeleton />
+        <LoadingSkeleton />
+        <LoadingSkeleton />
+        <LoadingSkeleton />
       </div>
     );
   }
