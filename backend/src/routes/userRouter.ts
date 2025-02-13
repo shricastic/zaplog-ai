@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
-import { sign } from "hono/jwt";
+import { sign, verify } from "hono/jwt";
 import { signupInput, signinInput } from "../utils/validator";
 import { googleAuth } from "@hono/oauth-providers/google";
 
@@ -100,6 +100,47 @@ userRouter.get("/signin/google/callback", async (c) => {
   return c.redirect(`${c.env.FRONTEND_REDIRECT_URI}?token=${jwt}`);
 });
 
+userRouter.get("/profile", async (c) => {
+  const token = c.req.header("Authorization") || "";
+  let userId= await verify(token, c.env.JWT_SECRET);
+
+  if (!userId) {
+    c.status(403);
+    return c.json({
+      message: "You are not logged in homie!",
+    });
+  }
+
+  console.log(":::::::user:::::::", userId)
+
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env.DB_POOL_URL,
+  }).$extends(withAccelerate());
+
+  try {
+      const user = await prisma.user.findFirst({
+      where: { id: userId?.id },
+      select: {
+        name: true,
+        avatar: true,
+        username: true,
+      },
+    });
+
+    if (!user) {
+      c.status(404);
+      return c.json({ message: "Blog not found" });
+    }
+
+    c.status(200);
+    return c.json({ message: "Here you go Homie!", user });
+  } catch (e) {
+    c.status(500);
+    return c.json({ message: "Something went wrong homie, check!" });
+  }
+});
+
+
 userRouter.post("/signin", async (c) => {
   const body = await c.req.json();
 
@@ -179,5 +220,7 @@ userRouter.post("/signup", async (c) => {
     return c.text("Invalid");
   }
 });
+
+
 
 export default userRouter;

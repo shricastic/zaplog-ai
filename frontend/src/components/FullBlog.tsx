@@ -3,9 +3,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 
 const FullBlog = ({ blog }: { blog: Blog }) => {
   return (
-    <div className="max-w-4xl mx-auto p-6 flex flex-col md:flex-row gap-8">
+    <div className="max-w-5xl mx-auto p-6 flex flex-col md:flex-row gap-8">
       <div className="flex-grow">
-        <h1 className="text-4xl font-bold mb-4">{blog.title}</h1>
+        <h1 className="text-4xl font-extrabold mb-4">{blog.title}</h1>
         <div className="prose">
           {blog.content.split("\n\n").map((paragraph: string, index: number) =>
             paragraph.startsWith("*") ? (
