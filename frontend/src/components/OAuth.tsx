@@ -70,7 +70,7 @@ const OAuth = ({ type }: { type: "signup" | "signin" }) => {
   };
 
   return (
-    <div className="flex justify-center flex-col h-screen">
+    <div className="flex justify-center flex-col ">
       <div className="flex justify-center">
         <div className="w-full max-w-md px-6">
           <div className="text-3xl font-bold mb-8 text-center">

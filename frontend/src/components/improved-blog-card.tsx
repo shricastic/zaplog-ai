@@ -35,29 +35,29 @@ export function ImprovedBlogCard({
 
   return (
     <Link to={`/blog/${blogId}`}>
-      <Card className=" relative max-w-2xl mx-auto hover:shadow-xl transition-all duration-300 cursor-pointer mb-6 overflow-hidden bg-gradient-to-br from-white to-gray-100 dark:from-gray-800 dark:to-gray-900 border-0">
+      <Card className=" relative max-w-2xl mx-auto hover:shadow-xl transition-all duration-300 cursor-pointer mb-6 overflow-hidden  border-0">
         <CardHeader className="flex flex-row items-center gap-4 relative z-10">
-          <Avatar className="w-12 h-12 ring-2 ring-white dark:ring-gray-800 shadow-lg">
+          <Avatar className="w-12 h-12 ring-2  shadow-lg">
             <AvatarImage src={authorImage} alt={authorName} />
             <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-600 text-white">
               {authorName.slice(0, 2).toUpperCase()}
             </AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
-            <p className="text-lg font-semibold text-gray-900 dark:text-white">
+            <p className="text-lg font-semibold">
               {authorName || "Anonymous"}
             </p>
-            <div className="flex items-center text-sm text-gray-600 dark:text-gray-300">
+            <div className="flex items-center text-sm ">
               <CalendarIcon className="mr-1 h-4 w-4" />
               {date}
             </div>
           </div>
         </CardHeader>
         <CardContent className="relative z-10">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2 line-clamp-2 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">
+          <h2 className="text-2xl font-bold  mb-2 line-clamp-2 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">
             {title}
           </h2>
-          <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">
+          <p className=" mb-4 line-clamp-3">
           {content.split("\n\n").map((paragraph: string, index: number) =>
             paragraph.startsWith("*") ? (
               <h5 key={index} className="mb-4 text-sm font-semibold">
@@ -77,7 +77,7 @@ export function ImprovedBlogCard({
             {category}
           </Badge>
         </CardContent>
-        <CardFooter className="flex justify-between items-center text-sm text-gray-600 dark:text-gray-300 relative z-10">
+        <CardFooter className="flex justify-between items-center text-sm  relative z-10">
           <div className="flex items-center">
             <ClockIcon className="mr-1 h-4 w-4" />
             {readTime} min read
