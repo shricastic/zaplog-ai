@@ -59,7 +59,9 @@ const Hero = () => {
                     size="sm"
                     className="rounded-full hidden lg:flex border border-foreground/20"
                   >
-                    Get Started
+                    <Link to="/publish">
+                     Get Started
+                    </Link>
                     <ArrowRight className="w-4 h-4 ml-1" />
                   </Button>
                 </Link>

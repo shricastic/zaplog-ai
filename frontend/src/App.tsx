@@ -14,7 +14,6 @@ import OAuthCallback from "./components/OAuthCallback";
 import Profile from "./pages/Profile";
 
 function App() {
-  const [content, setContent] = useState(null);
   const router = createBrowserRouter([
     {
       path: "/",
