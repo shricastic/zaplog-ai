@@ -9,10 +9,17 @@ import { useNavigate } from "react-router";
 export default function Publish() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [isPublishing, setIsPublishing] = useState(false);
   const navigate = useNavigate();
 
   async function publishBlog() {
+    if (!title.trim() || !content.trim()) {
+      alert("Title and content are required to publish.");
+      return;
+    }
+
+    setIsPublishing(true);
     try {
       const response = await axios.post(
         `${environment.BACKEND_URL}/api/v1/blog`,
@@ -27,6 +34,8 @@ export default function Publish() {
     } catch (error) {
       console.error("Error publishing blog:", error);
       alert("Failed to publish blog. Please try again.");
+    } finally {
+      setIsPublishing(false);
     }
   }
 
@@ -35,7 +44,7 @@ export default function Publish() {
       alert("Please enter a title");
       return;
     }
-    setLoading(true);
+    setIsGenerating(true);
     try {
       const response = await axios.post(
         `${environment.BACKEND_URL}/api/v1/blog/content/generate`,
@@ -51,7 +60,7 @@ export default function Publish() {
       console.error("Error generating content:", error);
       alert("AI generation failed. Please try again.");
     } finally {
-      setLoading(false);
+      setIsGenerating(false);
     }
   }
 
@@ -79,35 +88,16 @@ export default function Publish() {
             <button
               onClick={generateBlog}
               type="button"
-              disabled={loading}
+              disabled={isGenerating || isPublishing}
               className={`flex items-center justify-center text-white bg-violet-600 
               hover:bg-violet-700 focus:outline-none focus:ring-4 focus:ring-violet-300 font-medium 
               rounded-full text-sm px-5 py-2.5 shadow-lg transform hover:scale-105 
               transition-all duration-200 hover:shadow-violet-300/50 ${
-                loading ? "opacity-50 cursor-not-allowed" : ""
+                isGenerating ? "opacity-50 cursor-not-allowed" : ""
               }`}
             >
-              {loading ? (
-                <svg
-                  className="animate-spin h-5 w-5 text-white"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  ></circle>
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8v8z"
-                  ></path>
-                </svg>
+              {isGenerating ? (
+                <Spinner />
               ) : (
                 "Generate with AI ✨"
               )}
@@ -115,14 +105,44 @@ export default function Publish() {
             <button
               onClick={publishBlog}
               type="button"
-              className="text-white bg-green-700 hover:bg-green-800 focus:outline-none 
-              focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5"
+              disabled={isPublishing || isGenerating}
+              className={`flex items-center justify-center text-white bg-green-700 
+              hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium 
+              rounded-full text-sm px-5 py-2.5 shadow-lg transition-all duration-200 ${
+                isPublishing ? "opacity-50 cursor-not-allowed" : ""
+              }`}
             >
-              Publish
+              {isPublishing ? <Spinner /> : "Publish"}
             </button>
           </div>
         </Card>
       </div>
     </div>
+  );
+}
+
+// Inline spinner component
+function Spinner() {
+  return (
+    <svg
+      className="animate-spin h-5 w-5 text-white"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <circle
+        className="opacity-25"
+        cx="12"
+        cy="12"
+        r="10"
+        stroke="currentColor"
+        strokeWidth="4"
+      ></circle>
+      <path
+        className="opacity-75"
+        fill="currentColor"
+        d="M4 12a8 8 0 018-8v8z"
+      ></path>
+    </svg>
   );
 }
